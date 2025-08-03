@@ -10,6 +10,8 @@ node_modules/
 
 # Archivos de configuración local (¡MUY IMPORTANTE!)
 config.json
+.gemini/
+GEMINI.md
 
 # Archivos temporales
 tmp.md

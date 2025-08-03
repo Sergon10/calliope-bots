@@ -1,47 +1,57 @@
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
-import { randomUUID } from 'crypto'; // ← Usa la función nativa en vez de 'uuid'
+import { randomUUID } from 'crypto';
 
-
-// Extraer project_root del config
-
-
-export function copiarTextoLargoPortapapeles(texto) {
+/**
+ * Copies a long string to the user’s clipboard by writing it to a temporary file
+ * and using PowerShell to set the clipboard contents.
+ *
+ * @param {string} text The text to copy.
+ * @throws {Error} If any step in the process fails.
+ */
+export function copiarTextoLargoPortapapeles(text) {
   try {
-    // 1. Crear un archivo temporal con un nombre único en la raíz del proyecto
-    const rutaArchivoTemporal = path.join(
-      process.cwd(), // Raiz desde donde se ejecuta el script
+    // 1. Create a uniquely named temporary file in the current working directory
+    const tempFilePath = path.join(
+      process.cwd(),
       `temp-clipboard-${randomUUID()}.txt`
     );
 
-    // 2. Guardar el texto en el archivo temporal
-    fs.writeFileSync(rutaArchivoTemporal, texto, 'utf8');
+    // 2. Write the text into that file
+    fs.writeFileSync(tempFilePath, text, 'utf8');
 
-    // 3. Ejecutar el comando de PowerShell usando -Raw y -Encoding UTF8 para preservar caracteres especiales
-    execSync(`powershell -Command "Get-Content -Path '${rutaArchivoTemporal}' -Raw -Encoding UTF8 | Set-Clipboard"`);
+    // 3. Use PowerShell to copy its contents to the clipboard (preserving UTF-8)
+    execSync(
+      `powershell -Command "Get-Content -Path '${tempFilePath}' -Raw -Encoding UTF8 | Set-Clipboard"`
+    );
 
-    // 4. Eliminar el archivo temporal después de copiarlo
-    fs.unlinkSync(rutaArchivoTemporal);
+    // 4. Remove the temporary file
+    fs.unlinkSync(tempFilePath);
 
   } catch (error) {
-    throw new Error(`ERROR: No se pudo copiar el texto al portapapeles: ${error.message}`);
+    throw new Error(`Failed to copy text to clipboard: ${error.message}`);
   }
 }
 
+/**
+ * Reads all files in a directory, filters by given extension(s), and
+ * returns their absolute paths sorted by creation time (oldest first).
+ *
+ * @param {string} directory The path to scan.
+ * @param {string|string[]} exts One or more extensions (without dot).
+ * @returns {string[]} Sorted array of file paths.
+ */
 export function ordenarArchivos_js(directory, exts) {
-  // Normalizar extensions a array de strings sin punto y en minúsculas
   const extensions = (Array.isArray(exts) ? exts : [exts])
     .map(e => e.replace(/^\./, '').toLowerCase());
 
   let filesArray = [];
   try {
-    // Listar todos los elementos
     const entries = fs.readdirSync(directory);
     for (const name of entries) {
       const fullPath = path.join(directory, name);
       const stat = fs.statSync(fullPath);
-      // Filtrar solo ficheros
       if (stat.isFile()) {
         const fileExt = path.extname(name).replace(/^\./, '').toLowerCase();
         if (extensions.includes(fileExt)) {
@@ -50,13 +60,11 @@ export function ordenarArchivos_js(directory, exts) {
       }
     }
   } catch (err) {
-    console.log(`ERROR (ordenarArchivos_js): Imposible leer directorio ${directory}:`, err);
+    console.error(`ERROR (ordenarArchivos_js): Cannot read directory ${directory}:`, err);
     return [];
   }
 
-  // Ordenar por fecha de creación (el más antiguo primero)
+  // Sort by creation time ascending
   filesArray.sort((a, b) => a.ctime - b.ctime);
-
-  // Devolver únicamente el array de rutas
   return filesArray.map(item => item.path);
 }
