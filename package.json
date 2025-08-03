@@ -1,12 +1,41 @@
 {
   "name": "calliope-bots",
-  "version": "1.0.0",
-  "description": "Bot para generar imágenes con IA para tus videos.",
+  "version": "1.0.1",
+  "description": "A CLI tool to automate AI image generation using your ChatGPT account and Puppeteer.",
   "main": "bot_Sora.js",
   "type": "module",
   "bin": {
     "calliope-sora": "./bot_Sora.js"
   },
+  "scripts": {
+    "start": "calliope-sora ./prompts.json video \"\"",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sergon10/calliope-bots.git"
+  },
+  "keywords": [
+    "chatgpt",
+    "puppeteer",
+    "image-generation",
+    "cli",
+    "automation"
+  ],
+  "author": "Sergio Gil, for Calliope Labs LLC.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sergon10/calliope-bots/issues"
+  },
+  "homepage": "https://github.com/Sergon10/calliope-bots#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "bot_Sora.js",
+    "utils/",
+    "README.md"
+  ],
   "dependencies": {
     "puppeteer": "^22.10.0",
     "puppeteer-extra": "^3.3.6",
