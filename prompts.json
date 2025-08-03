@@ -1,0 +1,10 @@
+[
+    {
+        "positivePrompt": "EXAMPLE: A person on a hamster wheel, looking tired and resigned, with a fleeting, almost transparent glow of happiness quickly fading from their face. Repetitive, monotonous background.",
+        "negativePrompt": "EXAMPLE: Lasting joy, breaking free, vibrant energy, clear path, unique events."
+    },
+    {
+        "positivePrompt": "Paste a json with this format. You can ask chat-gpt to do it for you.",
+        "negativePrompt": " ... "
+    }
+]
