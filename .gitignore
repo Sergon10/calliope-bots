@@ -12,6 +12,7 @@ node_modules/
 config.json
 .gemini/
 GEMINI.md
+pruebas/
 
 # Archivos temporales
 tmp.md

@@ -107,7 +107,7 @@ This makes the `calliope-sora` command available system-wide.
 **Example:**
 
 ```bash
-calliope-sora ./prompts.json video "Studio Ghibli style, pastel colors, concept art"
+calliope-sora .\prompts.json video "Studio Ghibli style, pastel colors, concept art"
 ```
 
 The bot will generate images one by one, saving them in an `outputs` folder as:

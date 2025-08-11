@@ -314,3 +314,10 @@ if (import.meta.url === thisFileUrl) {
 }
 
 // -- SCRIPT END --
+
+/**
+ * CAMBIOS *
+ * - Cambiar 'contentTypeArg' directamente por el AR deseado.
+ * - Image Style debe poder ser el 'json prompting' base de los sliders.
+ * - El prompt base debe poder ser modificado, el de ahora puede servir como el default.
+*/
