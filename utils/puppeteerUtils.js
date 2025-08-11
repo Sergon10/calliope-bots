@@ -231,8 +231,8 @@ export async function navigateAndFullFill(
     } else {
       console.info(`INFO (navigateAndFullFill): Typing text (${rapidez_escritura}).`);
       const length = texto.length;
-      const pauseBase = rápida_escritura === "fast" ? 20 : 100;
-      const pauseDev = rápida_escritura === "fast" ? 20 : 600;
+      const pauseBase = rapidez_escritura === "fast" ? 20 : 100;
+      const pauseDev = rapidez_escritura === "fast" ? 20 : 600;
       for (let i = 0; i < length; i++) {
         await page.keyboard.type(texto[i]);
         const delay = Math.abs(gauss(pauseBase, pauseDev));
