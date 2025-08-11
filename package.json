@@ -1,6 +1,6 @@
 {
   "name": "calliope-bots",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A CLI tool to automate AI image generation using your ChatGPT account and Puppeteer.",
   "main": "bot_Sora.js",
   "type": "module",
@@ -22,7 +22,7 @@
     "cli",
     "automation"
   ],
-  "author": "Sergio Gil, for Calliope Labs LLC.",
+  "author": "Sergio Gil, for Calliope Content Automation LLC.",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Sergon10/calliope-bots/issues"
