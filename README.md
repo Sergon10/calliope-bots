@@ -48,16 +48,16 @@ This makes the `calliope-sora` command available system-wide.
 2. **Create `config.json`.**
    In that folder, add a file named `config.json`:
 
-   ```json
+
    2. **Create `config.json`.**
    In that folder, add a file named `config.json`:
 
    ```json
    {
-     "chromeExecutablePath": "C:\Program Files\Google\Chrome\Application\chrome.exe",
-     "chromeUserDataDir": "C:\Users\<YOUR_WINDOWS_USERNAME>\AppData\Local\Google\Chrome\User Data",
-     "downloadsDir": "C:\Users\<YOUR_WINDOWS_USERNAME>\Downloads\CalliopeBot_Downloads",
-     "outputsDir": "C:\Users\<YOUR_WINDOWS_USERNAME>\Desktop\CalliopeBot_Outputs"
+     "chromeExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+     "chromeUserDataDir": "C:\\Users\\<YOUR_WINDOWS_USERNAME>\\AppData\\Local\\Google\\Chrome\\User Data",
+     "downloadsDir": "C:\\Users\\<YOUR_WINDOWS_USERNAME>\\Downloads\\CalliopeBot_Downloads",
+     "outputsDir": "C:\\Users\\<YOUR_WINDOWS_USERNAME>\\Desktop\\CalliopeBot_Outputs"
    }
    ```
 
