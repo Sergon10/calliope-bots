@@ -31,6 +31,7 @@ Open PowerShell or CMD and install globally:
 
 ```bash
 npm install -g calliope-bots
+```
 
 This makes the `calliope-sora` command available system-wide.
 
@@ -48,10 +49,6 @@ This makes the `calliope-sora` command available system-wide.
 2. **Create `config.json`.**
    In that folder, add a file named `config.json`:
 
-
-   2. **Create `config.json`.**
-   In that folder, add a file named `config.json`:
-
    ```json
    {
      "chromeExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -65,7 +62,7 @@ This makes the `calliope-sora` command available system-wide.
    * If Chrome is installed elsewhere, update `"chromeExecutablePath"`.
    * `"downloadsDir"`: The temporary folder where Chrome will save images. The bot will move files from here.
    the`"outputsDirDir"`: The final folder for your generated images. **This path must be different from `downloadsDir`**.
-   ```
+   
 
    * Replace `<YOUR_WINDOWS_USERNAME>` with your actual Windows user name.
    * If Chrome is installed elsewhere, update `"chromeExecutablePath"`.
