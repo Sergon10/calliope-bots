@@ -111,7 +111,7 @@ async function gptGetImage(page, prompt, x0, y0, respuestasDOM = 0) {
 
 async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style") { 
     let AR;
-    let page, browser, x1, y1, carpetaDescargas, respuestasDOM = 0;
+    let page, browser, x1, y1, carpetaDescargas, outputsDir, respuestasDOM = 0;
 
     if (contentType === 'video') {
         AR = '16:9';
@@ -121,7 +121,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
 
     try {
         // Initialize browser and open a new page
-        ({ browser, page, x0: x1, y0: y1, carpetaDescargas } = await browserInit(puppeteer));
+        ({ browser, page, x0: x1, y0: y1, carpetaDescargas, carpetaOutputs: outputsDir } = await browserInit(puppeteer));
 
         // Initial check for pre-existing .png files in the download directory
         const initCount = ordenarArchivos_js(carpetaDescargas, 'png').length;
@@ -133,7 +133,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
         }
 
         // Declare the function to wait and validate image download
-        async function waitAndCheckImage(imageIndex) {
+        async function waitAndCheckImage(imageIndex, carpetaOutputs) {
             console.log("INFO (waitAndCheckImage): Proceeding to validate download...");
 
             const timeoutMs = 10_000;
@@ -142,7 +142,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
 
             while (Date.now() - t0 < timeoutMs) {
                 const pngFiles = ordenarArchivos_js(carpetaDescargas, "png");
-                const outputsDirectory = './outputs';
+                const outputsDirectory = carpetaOutputs;
 
                 if (pngFiles.length === 1) {
                     // Image detected
@@ -208,7 +208,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
                 ({ x1, y1, diagnostico } = await gptGetImage(page, prompt, x1, y1, respuestasDOM));
                 respuestasDOM++;
                 await pausaGauss(5000, 100);
-                diagnostico += await waitAndCheckImage(i + 1);
+                diagnostico += await waitAndCheckImage(i + 1, outputsDir);
 
                 // Handle error diagnostics
                 if (diagnostico !== "") {
@@ -233,7 +233,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
                         ({ x1, y1, diagnostico } = await gptGetImage(page, promptRetry, x1, y1, respuestasDOM));
                         respuestasDOM++;
                         await pausaGauss(5000, 100);
-                        diagnostico += await waitAndCheckImage(i + 1);
+                        diagnostico += await waitAndCheckImage(i + 1, outputsDir);
 
                         if (diagnostico !== "") {
                             if (diagnostico.includes('violation') && trials > 3) {
@@ -255,7 +255,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
             } catch (error) {
                 console.log(`WARNING (bot_Sora): Unexpected error on image #${i + 1}:`, error);
                 console.log("WARNING (bot_Sora): Gathering diagnostic of the failure...");
-                let diagnosticoDeUrgencia = await waitAndCheckImage(i + 1);
+                let diagnosticoDeUrgencia = await waitAndCheckImage(i + 1, outputsDir);
                 if (diagnosticoDeUrgencia !== "") {
                     console.log(`WARNING (bot_Sora): Image #${i + 1} was NOT generated. Urgent diagnostic -> ${diagnosticoDeUrgencia}`);
                     console.log("WARNING (bot_Sora): Restarting browser, opening new chat session, and retrying the failed image.");

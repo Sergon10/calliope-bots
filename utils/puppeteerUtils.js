@@ -39,12 +39,20 @@ export async function pausaGauss(base, deviation) {
  */
 export async function browserInit(puppeteer, incognito = false) {
   try {
-    // Load user config from CWD
+    // Load and validate user config from CWD
     const configPath = path.join(process.cwd(), 'config.json');
     if (!fs.existsSync(configPath)) {
       throw new Error('config.json not found. Please create it in your working directory.');
     }
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+
+    // Validate required config properties
+    if (!config.downloadsDir || !config.outputsDir) {
+      throw new Error('Config error: `downloadsDir` and `outputsDir` must be defined in config.json.');
+    }
+    if (config.downloadsDir === config.outputsDir) {
+      throw new Error('Config error: `downloadsDir` and `outputsDir` cannot be the same path.');
+    }
 
     // Build browser launch options
     const browserOptions = {
@@ -66,11 +74,11 @@ export async function browserInit(puppeteer, incognito = false) {
     const context = browser.defaultBrowserContext();
     const page = (await context.pages())[0];
 
-    // Ensure downloads folder exists
-    const carpetaDescargas = config.downloadsPath;
-    if (!fs.existsSync(carpetaDescargas)) {
-      fs.mkdirSync(carpetaDescargas, { recursive: true });
-    }
+    // Ensure downloads and outputs folders exist
+    const carpetaDescargas = config.downloadsDir;
+    const carpetaOutputs = config.outputsDir;
+    fs.mkdirSync(carpetaDescargas, { recursive: true });
+    fs.mkdirSync(carpetaOutputs, { recursive: true });
 
     // Enable automatic downloads
     const client = await page.target().createCDPSession();
@@ -97,7 +105,7 @@ export async function browserInit(puppeteer, incognito = false) {
     }
 
     console.info(`INFO (browserInit): Browser launched and mouse positioned.`);
-    return { browser, page, x0, y0, carpetaDescargas };
+    return { browser, page, x0, y0, carpetaDescargas, carpetaOutputs };
 
   } catch (error) {
     console.error(`ERROR (browserInit): Failed to launch browser ->`, error.message);
@@ -207,7 +215,7 @@ export async function navigateAndClick(page, selector, x0, y0, clickOption = 1) 
  */
 export async function navigateAndFullFill(
   page, selector, texto, rapidez_escritura = "slow=(100,600)", x0, y0, pegarTexto = true
-) {
+  ) {
   let x1 = x0, y1 = y0;
   try {
     // Focus and clear the field

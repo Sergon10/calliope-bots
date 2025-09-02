@@ -49,16 +49,27 @@ This makes the `calliope-sora` command available system-wide.
    In that folder, add a file named `config.json`:
 
    ```json
+   2. **Create `config.json`.**
+   In that folder, add a file named `config.json`:
+
+   ```json
    {
-     "chromeExecutablePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-     "chromeUserDataDir": "C:\\Users\\<YOUR_WINDOWS_USERNAME>\\AppData\\Local\\Google\\Chrome\\User Data",
-     "downloadsPath": "C:\\Users\\<YOUR_WINDOWS_USERNAME>\\Downloads\\CalliopeBot"
+     "chromeExecutablePath": "C:\Program Files\Google\Chrome\Application\chrome.exe",
+     "chromeUserDataDir": "C:\Users\<YOUR_WINDOWS_USERNAME>\AppData\Local\Google\Chrome\User Data",
+     "downloadsDir": "C:\Users\<YOUR_WINDOWS_USERNAME>\Downloads\CalliopeBot_Downloads",
+     "outputsDir": "C:\Users\<YOUR_WINDOWS_USERNAME>\Desktop\CalliopeBot_Outputs"
    }
    ```
 
    * Replace `<YOUR_WINDOWS_USERNAME>` with your actual Windows user name.
    * If Chrome is installed elsewhere, update `"chromeExecutablePath"`.
-   * The `"downloadsPath"` is where images will be saved; the bot will create it if it doesn’t exist.
+   * `"downloadsDir"`: The temporary folder where Chrome will save images. The bot will move files from here.
+   the`"outputsDirDir"`: The final folder for your generated images. **This path must be different from `downloadsDir`**.
+   ```
+
+   * Replace `<YOUR_WINDOWS_USERNAME>` with your actual Windows user name.
+   * If Chrome is installed elsewhere, update `"chromeExecutablePath"`.
+   * The `"downloadsDir"` is where images will be saved; the bot will create it if it doesn’t exist.
 
 3. **Create `prompts.json`.**
    In the same folder, add `prompts.json` containing an array of prompt objects:
@@ -110,7 +121,7 @@ This makes the `calliope-sora` command available system-wide.
 calliope-sora .\prompts.json video "Studio Ghibli style, pastel colors, concept art"
 ```
 
-The bot will generate images one by one, saving them in an `outputs` folder as:
+The bot will generate images one by one, saving them in the `outputsDir` folder as:
 
 ```
 1_calliopeBot_image.png
@@ -156,7 +167,7 @@ If an error occurs, a screenshot named `error-screenshot.png` will be saved in t
   If a prompt is blocked, try rephrasing it. The bot will attempt compliance but won’t override core content rules.
 
 * **Image not saved**
-  The bot waits up to 10 s for each download. Check your `downloadsPath` and folder permissions. Successful images are moved to `outputs`.
+  The bot waits up to 10 s for each download. Check your `downloadsDir` and folder permissions. Successful images are moved to `outputsDir`.
 
 ---
 
