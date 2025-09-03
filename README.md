@@ -152,7 +152,7 @@ If an error occurs, a screenshot named `error-screenshot.png` will be saved in t
   Run the command from the folder containing `config.json` (`cd` into it).
 
 * **Chrome launch failure**
-  Verify the `chromeExecutablePath` in `config.json` and close any open Chrome windows.
+  Verify the `chromeExecutablePath` in `config.json` and close any open Chrome windows. If a parent directory contains a `package.json`: add an empty `package.json` in the working folder to prevent npx from changing the `cwd` (`config.json` not found error).
 
 * **Not logged into ChatGPT**
   The bot uses your saved session. Manually log in via Chrome and ensure `chromeUserDataDir` points to the correct profile folder.
