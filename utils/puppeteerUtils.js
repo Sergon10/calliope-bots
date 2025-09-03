@@ -41,7 +41,9 @@ export async function browserInit(puppeteer, incognito = false) {
   try {
     // Load and validate user config from CWD
     const configPath = path.join(process.cwd(), 'config.json');
+    const cwd_dir = process.cwd()
     if (!fs.existsSync(configPath)) {
+      console.error(`configPath: ${configPath}; process.cwd(): ${cwd_dir}`)
       throw new Error('config.json not found. Please create it in your working directory.');
     }
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
