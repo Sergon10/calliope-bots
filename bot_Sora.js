@@ -34,7 +34,7 @@ async function gptGetImage(page, prompt, x0, y0, respuestasDOM = 0) {
         let generatedFlag = false;
         let secondsWaiting = 0;
         let nAparentesRespuestas = respuestasDOM;
-        while (nAparentesRespuestas <= respuestasDOM && secondsWaiting < 120) {
+        while (nAparentesRespuestas <= respuestasDOM && secondsWaiting < 200) {
             // 2.1 Extract containers from the DOM
             aparentesRespuestas = await page.$$('button[aria-label="Download this image"]');
             nAparentesRespuestas = aparentesRespuestas.length;
@@ -51,7 +51,7 @@ async function gptGetImage(page, prompt, x0, y0, respuestasDOM = 0) {
         }
 
         if (!generatedFlag) {
-            throw new Error(`No image container found within 120s.`);
+            throw new Error(`No image container found within 200s.`);
         }
 
         // ---- Download Image ----
@@ -200,7 +200,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
                 negativePrompt = jsonPrompts[i].negativePrompt;
             } catch (error) { throw new Error("ERROR (bot_Sora): The json with the prompts must be a list of objects with two entries (exactly 'positivePrompt' and 'negativePrompt'). Review documentation."); }
             // Prompt declaration
-            let prompt = `Create the following image in ${AR} AR for a YouTube ${contentType}. Stick to the image. You can put words in objects but DO NOT INCLUDE RAW TEXT (never include the title or any text in the image beyond words on objects). Keep in mind that each of the following prompts corresponds to a phrase from the ${contentType} script. Each image will be placed synchronously with that phrase in the ${contentType} montage. Therefore, stick to the positive prompt and avoid the negative. The image title is for reference only (DO NOT INCLUDE THAT TEXT IN THE IMAGE). REMEMBER ${AR}. Remember to include text if specific text is mentioned. positive prompt: ${negativePrompt}; negative prompt: ${positivePrompt}.`;
+            let prompt = `Create the following image in ${AR} AR for a YouTube ${contentType}. Stick to the image. You can put words in objects but DO NOT INCLUDE RAW TEXT (never include the title or any text in the image beyond words on objects). Keep in mind that each of the following prompts corresponds to a phrase from the ${contentType} script. Each image will be placed synchronously with that phrase in the ${contentType} montage. Therefore, stick to the positive prompt and avoid the negative. The image title is for reference only (DO NOT INCLUDE THAT TEXT IN THE IMAGE). REMEMBER ${AR}. Remember to include text if specific text is mentioned. positive prompt: ${positivePrompt}; negative prompt: ${negativePrompt}.`;
             prompt += `Apply the following image style: ${imagesStyle}`;
 
             try {
@@ -316,6 +316,12 @@ if (import.meta.url === thisFileUrl) {
 // -- SCRIPT END --
 
 /**
+    // Local tests
+    const promptsPath = './prompts.json';
+    const contentTypeArg = 'short';
+    let parsedPrompts = JSON.parse(fs.readFileSync(path.resolve(promptsPath), 'utf-8'));
+    await bot_Sora(parsedPrompts, contentTypeArg);
+
  * CAMBIOS *
  * - Cambiar 'contentTypeArg' directamente por el AR deseado.
  * - Image Style debe poder ser el 'json prompting' base de los sliders.

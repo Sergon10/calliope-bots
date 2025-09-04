@@ -10,6 +10,7 @@ node_modules/
 
 # Archivos de configuración local (¡MUY IMPORTANTE!)
 config.json
+prompts.json
 .gemini/
 GEMINI.md
 pruebas/
