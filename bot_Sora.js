@@ -186,7 +186,7 @@ async function bot_Sora(jsonPrompts, contentType, imagesStyle = "Neutral style")
         }
 
         // Enter the custom GPT session
-        await gptInit(page, 'https://chatgpt.com/?model=gpt-4o');
+        await gptInit(page, 'https://chatgpt.com/g/g-68c6de664fd0819181322c7f8c2a464e-image-creator');
         await pausaGauss(600, 100);
 
         // Generate images based on provided prompts
